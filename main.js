@@ -3,18 +3,18 @@ var Calendar = require('node-google-calendar'),
     calId = config.calendarId.myCal;
 var cal = new Calendar(config);
 
-function getPAAMonthList(year, month,durmonth) {
-    if (month+durmonth <= 12) {
+function getPAAMonthList(year, month, durmonth) {
+    if (parseInt(parseInt(month) + parseInt(durmonth)) <= 12) {
         var params = {
             timeMin: parseInt(year) + '-' + month + '-01T00:00:00+09:00',
-            timeMax: parseInt(year) + '-' + parseInt(month +durmonth) + '-01T00:00:00+09:00',
+            timeMax: parseInt(year) + '-' + parseInt(parseInt(month) + parseInt(durmonth)) + '-01T00:00:00+09:00',
             singleEvents: true,
             orderBy: "startTime"
         }
     } else {
         var params = {
             timeMin: parseInt(year) + '-' + month + '-01T00:00:00+09:00',
-            timeMax: parseInt(year + 1) + '-' + parseInt(month +durmonth -12) + '-01T00:00:00+09:00',
+            timeMax: parseInt(parseInt(year) + 1) + '-' + parseInt(parseInt(month) + parseInt(durmonth) - 12) + '-01T00:00:00+09:00',
             singleEvents: true,
             orderBy: "startTime"
         }
@@ -44,8 +44,6 @@ function getPAAMonthList(year, month,durmonth) {
                 })
             })
             console.log(nameList)
-            console.log(month + ": " + paa.length)
-
 
         })
         .catch(err => {
@@ -53,4 +51,4 @@ function getPAAMonthList(year, month,durmonth) {
         });
 }
 
-getPAAMonthList(2022,10,1)
+getPAAMonthList(process.argv[2], process.argv[3], process.argv[4])
